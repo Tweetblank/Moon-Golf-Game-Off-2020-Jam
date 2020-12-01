@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="AsteroidOrbit" type="StaticBody2D" groups=[
+"Asteroids",
+]]
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="."]

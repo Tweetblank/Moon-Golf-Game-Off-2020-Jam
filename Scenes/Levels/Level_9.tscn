@@ -1,0 +1,469 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://Scenes/Bodies/Moon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Objects/Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Objects/Goal.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/UI/PowerMeter.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Background/Tiny_Stars.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Background/Medium_Stars.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Background/FarMedium_Stars.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Background/Medium_Stars2.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/Levels/Level.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Objects/Boundaries.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Bodies/BlackHole.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Bodies/Orbit.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/Bodies/AsteroidOrbit.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Assets/SpaceRocks/asteroidSmall.png" type="Texture" id=16]
+[ext_resource path="res://Assets/SpaceRocks/Asteroid.png" type="Texture" id=17]
+[ext_resource path="res://Scenes/UI/ScoreUI.tscn" type="PackedScene" id=18]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 448, 368 )
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 88.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 45.5222
+
+[sub_resource type="Animation" id=5]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 56.0
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 32.0
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 10 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground"]
+margin_left = -22.0
+margin_top = -17.0
+margin_right = 652.0
+margin_bottom = 498.0
+color = Color( 0.0352941, 0, 0.0941176, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MidGround" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.45, 0.45 )
+motion_mirroring = Vector2( 640, 480 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/MidGround"]
+texture = ExtResource( 8 )
+centered = false
+region_rect = Rect2( 0, 0, 640, 480 )
+
+[node name="MidGroundAnim" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.6, 0.6 )
+motion_offset = Vector2( -320, -240 )
+motion_mirroring = Vector2( 640, 480 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="ParallaxBackground/MidGroundAnim"]
+frames = SubResource( 1 )
+playing = true
+centered = false
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.25, 0.25 )
+motion_mirroring = Vector2( 640, 480 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Background"]
+texture = ExtResource( 6 )
+centered = false
+region_rect = Rect2( 0, 0, 1280, 960 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 80, 64 )
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 640
+limit_bottom = 480
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+drag_margin_left = 0.4
+drag_margin_top = 0.4
+drag_margin_right = 0.4
+drag_margin_bottom = 0.4
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 80, 64 )
+
+[node name="PowerMeter" parent="." instance=ExtResource( 5 )]
+
+[node name="Boundaries" parent="." instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 312, 224 )
+
+[node name="CollisionShape2D" parent="Boundaries" index="0"]
+position = Vector2( 8, 16 )
+shape = SubResource( 2 )
+
+[node name="Moon" parent="." instance=ExtResource( 1 )]
+position = Vector2( 552, 184 )
+space_override = 4
+gravity = 500.0
+
+[node name="CollisionShape2D" parent="Moon" index="0"]
+shape = SubResource( 3 )
+
+[node name="Sprite" parent="Moon/MoonBody" index="0"]
+scale = Vector2( 0.7, 0.7 )
+
+[node name="CollisionShape2D" parent="Moon/MoonBody" index="1"]
+shape = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Moon"]
+playback_speed = 0.13
+anims/Rotate = SubResource( 5 )
+
+[node name="Pivot" parent="." instance=ExtResource( 14 )]
+position = Vector2( 384, 272 )
+rotation_speed = -0.54
+
+[node name="OuterRing" type="Node2D" parent="Pivot"]
+
+[node name="AsteroidOrbit" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( -56, -248 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit3" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( 208, 128 )
+rotation = 1.44164
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit3" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit3" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit8" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( -224, -152 )
+rotation = 1.44164
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit8" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit8" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit7" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( -16, 216 )
+rotation = 1.44164
+scale = Vector2( 0.7, 0.7 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit7" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit7" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit13" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( 320, -112 )
+rotation = 1.44164
+scale = Vector2( 0.7, 0.7 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit13" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit13" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit2" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( 216, -216 )
+scale = Vector2( 0.8, 0.8 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit2" index="0"]
+polygon = PoolVector2Array( -48, -40, 8, -56, 40, -48, 56, -32, 56, 8, -8, 48, -32, 48, -56, 24, -56, 8, -56, -16 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit2" index="1"]
+texture = ExtResource( 17 )
+
+[node name="AsteroidOrbit4" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( 80, -264 )
+rotation = 0.411898
+scale = Vector2( 0.65, 0.65 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit4" index="0"]
+polygon = PoolVector2Array( -48, -40, 8, -56, 40, -48, 56, -32, 56, 8, -8, 48, -32, 48, -56, 24, -56, 8, -56, -16 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit4" index="1"]
+texture = ExtResource( 17 )
+
+[node name="AsteroidOrbit9" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( -160, -232 )
+rotation = 0.617847
+scale = Vector2( 0.85, 0.85 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit9" index="0"]
+polygon = PoolVector2Array( -48, -40, 8, -56, 40, -48, 56, -32, 56, 8, -8, 48, -32, 48, -56, 24, -56, 8, -56, -16 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit9" index="1"]
+texture = ExtResource( 17 )
+
+[node name="AsteroidOrbit12" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( 256, 16 )
+rotation = 0.617847
+scale = Vector2( 0.85, 0.85 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit12" index="0"]
+polygon = PoolVector2Array( -48, -40, 8, -56, 40, -48, 56, -32, 56, 8, -8, 48, -32, 48, -56, 24, -56, 8, -56, -16 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit12" index="1"]
+texture = ExtResource( 17 )
+
+[node name="AsteroidOrbit10" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( -248, 24 )
+rotation = 1.44164
+scale = Vector2( 0.85, 0.85 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit10" index="0"]
+polygon = PoolVector2Array( -48, -40, 8, -56, 40, -48, 56, -32, 56, 8, -8, 48, -32, 48, -56, 24, -56, 8, -56, -16 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit10" index="1"]
+texture = ExtResource( 17 )
+
+[node name="AsteroidOrbit11" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( -160, 184 )
+rotation = -2.67908
+scale = Vector2( 0.85, 0.85 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit11" index="0"]
+polygon = PoolVector2Array( -48, -40, 8, -56, 40, -48, 56, -32, 56, 8, -8, 48, -32, 48, -56, 24, -56, 8, -56, -16 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit11" index="1"]
+texture = ExtResource( 17 )
+
+[node name="AsteroidOrbit5" parent="Pivot/OuterRing" instance=ExtResource( 15 )]
+position = Vector2( 72, 240 )
+scale = Vector2( 0.7, 0.7 )
+
+[node name="CollisionShape2D" parent="Pivot/OuterRing/AsteroidOrbit5" index="0"]
+polygon = PoolVector2Array( -48, -40, 8, -56, 40, -48, 56, -32, 56, 8, -8, 48, -32, 48, -56, 24, -56, 8, -56, -16 )
+
+[node name="Sprite" parent="Pivot/OuterRing/AsteroidOrbit5" index="1"]
+texture = ExtResource( 17 )
+
+[node name="InnerRing" type="Node2D" parent="Pivot"]
+
+[node name="AsteroidOrbit14" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( -112, -32 )
+rotation = 1.44164
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit14" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit14" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit19" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( 80, -24 )
+rotation = -0.0698132
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit19" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit19" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit21" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( 39.9999, -96 )
+rotation = -2.81696
+scale = Vector2( 0.8, 0.8 )
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit21" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit21" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit16" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( -88, 40 )
+rotation = 0.617847
+scale = Vector2( 0.8, 0.8 )
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit16" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit16" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit18" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( 56, 56 )
+rotation = -1.44164
+scale = Vector2( 0.8, 0.8 )
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit18" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit18" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit15" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( 0, -80 )
+rotation = -0.181514
+scale = Vector2( 0.5, 0.5 )
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit15" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit15" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit17" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( -136, 24 )
+rotation = -0.181514
+scale = Vector2( 0.5, 0.5 )
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit17" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit17" index="1"]
+texture = ExtResource( 16 )
+
+[node name="AsteroidOrbit20" parent="Pivot/InnerRing" instance=ExtResource( 15 )]
+position = Vector2( -48, 88 )
+rotation = 0.644027
+scale = Vector2( 0.5, 0.5 )
+
+[node name="CollisionShape2D" parent="Pivot/InnerRing/AsteroidOrbit20" index="0"]
+scale = Vector2( 1.00755, 1 )
+polygon = PoolVector2Array( -27.3483, -10.1482, -17.8304, -28.7081, -5.93307, -29.184, 25.2379, -11.5759, 29.283, 2.22501, 24.0482, 24.592, -8.31256, 29.3509, -19.0202, 21.0228, -17.1166, 6.50804 )
+
+[node name="Sprite" parent="Pivot/InnerRing/AsteroidOrbit20" index="1"]
+texture = ExtResource( 16 )
+
+[node name="BlackHole" parent="." instance=ExtResource( 12 )]
+position = Vector2( 384, 272 )
+
+[node name="Goal" parent="." instance=ExtResource( 3 )]
+position = Vector2( 384, 272 )
+space_override = 3
+gravity_point = true
+next_level = "res://Scenes/Levels/End.tscn"
+
+[node name="Start" parent="." instance=ExtResource( 1 )]
+position = Vector2( 64, 104 )
+
+[node name="CollisionShape2D" parent="Start" index="0"]
+shape = SubResource( 6 )
+
+[node name="Sprite" parent="Start/MoonBody" index="0"]
+animation = "Start"
+
+[node name="CollisionShape2D" parent="Start/MoonBody" index="1"]
+shape = SubResource( 7 )
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+position = Vector2( 80, 64 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Ball"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="ScoreUI" parent="." instance=ExtResource( 18 )]
+[connection signal="oob" from="Boundaries" to="." method="_on_Boundaries_oob"]
+
+[editable path="Boundaries"]
+
+[editable path="Moon"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit3"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit8"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit7"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit13"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit2"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit4"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit9"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit12"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit10"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit11"]
+
+[editable path="Pivot/OuterRing/AsteroidOrbit5"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit14"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit19"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit21"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit16"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit18"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit15"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit17"]
+
+[editable path="Pivot/InnerRing/AsteroidOrbit20"]
+
+[editable path="BlackHole"]
+
+[editable path="Start"]

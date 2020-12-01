@@ -1,0 +1,39 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/SpaceRocks/BlackHoleAnimation/Blackhole_0003.png" type="Texture" id=1]
+[ext_resource path="res://Assets/SpaceRocks/BlackHoleAnimation/Blackhole_0004.png" type="Texture" id=2]
+[ext_resource path="res://Assets/SpaceRocks/BlackHoleAnimation/Blackhole_0000.png" type="Texture" id=3]
+[ext_resource path="res://Assets/SpaceRocks/BlackHoleAnimation/Blackhole_0002.png" type="Texture" id=4]
+[ext_resource path="res://Assets/SpaceRocks/BlackHoleAnimation/Blackhole_0005.png" type="Texture" id=5]
+[ext_resource path="res://Assets/SpaceRocks/BlackHoleAnimation/Blackhole_0001.png" type="Texture" id=6]
+[ext_resource path="res://Assets/SpaceRocks/BlackHoleAnimation/Blackhole_0006.png" type="Texture" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 112.0
+
+[node name="BlackHole" type="Area2D"]
+position = Vector2( 528, 368 )
+space_override = 3
+gravity_point = true
+gravity_vec = Vector2( 0, 0 )
+gravity = 400.0
+priority = 3.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+frame = 3
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )

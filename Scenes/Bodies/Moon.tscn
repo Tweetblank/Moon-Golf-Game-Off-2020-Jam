@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/SpaceRocks/Moon.png" type="Texture" id=1]
+[ext_resource path="res://Assets/SpaceRocks/startPoint.png" type="Texture" id=2]
+[ext_resource path="res://Assets/SpaceRocks/Small_moon.png" type="Texture" id=3]
+[ext_resource path="res://Assets/SpaceRocks/Moon2.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "Planet2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Moon",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "Planet1",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "Start",
+"speed": 5.0
+} ]
+
+[node name="Moon" type="Area2D" groups=[
+"Mass",
+]]
+position = Vector2( 204.66, 126.68 )
+space_override = 3
+gravity_point = true
+gravity_vec = Vector2( 0, 0 )
+gravity = 400.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="MoonBody" type="StaticBody2D" parent="."]
+
+[node name="Sprite" type="AnimatedSprite" parent="MoonBody"]
+frames = SubResource( 1 )
+animation = "Planet1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoonBody"]

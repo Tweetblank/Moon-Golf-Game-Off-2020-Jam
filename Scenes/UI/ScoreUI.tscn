@@ -1,0 +1,44 @@
+[gd_scene format=2]
+
+[node name="ScoreUI" type="CanvasLayer"]
+
+[node name="StrokeLabel" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 112.0
+margin_bottom = 32.0
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Stroke : "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParLabel" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 40.0
+margin_right = 56.0
+margin_bottom = 56.0
+text = "Par : 2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="."]
+margin_left = 88.0
+margin_top = 16.0
+margin_right = 104.0
+margin_bottom = 32.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 448.0
+margin_top = 16.0
+margin_right = 623.0
+margin_bottom = 32.0
+text = "Press \"R\" to restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}

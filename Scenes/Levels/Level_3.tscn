@@ -1,0 +1,221 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://Scenes/Bodies/Moon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Objects/Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Objects/Goal.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/SpaceRocks/Small_moon.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/UI/PowerMeter.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Background/Tiny_Stars.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Background/Medium_Stars.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Background/FarMedium_Stars.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Background/Medium_Stars2.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/Levels/Level.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Objects/Boundaries.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Bodies/BlackHole.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Bodies/Orbit.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/UI/ScoreUI.tscn" type="PackedScene" id=15]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 347.849, 266.237 )
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 288.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 162.08
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 160.73
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 84.9201
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 56.0
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 24.1043
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 56.0
+
+[sub_resource type="CircleShape2D" id=10]
+radius = 32.0
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 10 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground"]
+margin_left = -22.0
+margin_top = -17.0
+margin_right = 652.0
+margin_bottom = 498.0
+color = Color( 0.0352941, 0, 0.0941176, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MidGround" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.45, 0.45 )
+motion_mirroring = Vector2( 640, 480 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/MidGround"]
+texture = ExtResource( 8 )
+centered = false
+region_rect = Rect2( 0, 0, 640, 480 )
+
+[node name="MidGroundAnim" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.6, 0.6 )
+motion_offset = Vector2( -320, -240 )
+motion_mirroring = Vector2( 640, 480 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="ParallaxBackground/MidGroundAnim"]
+frames = SubResource( 1 )
+playing = true
+centered = false
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.25, 0.25 )
+motion_mirroring = Vector2( 640, 480 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/Background"]
+texture = ExtResource( 6 )
+centered = false
+region_rect = Rect2( 0, 0, 1280, 960 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 64, 336 )
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 640
+limit_bottom = 480
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+drag_margin_left = 0.4
+drag_margin_top = 0.4
+drag_margin_right = 0.4
+drag_margin_bottom = 0.4
+editor_draw_limits = true
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 64, 312 )
+
+[node name="PowerMeter" parent="." instance=ExtResource( 5 )]
+
+[node name="Boundaries" parent="." instance=ExtResource( 11 )]
+position = Vector2( 312, 224 )
+
+[node name="CollisionShape2D" parent="Boundaries" index="0"]
+position = Vector2( 3.8147e-06, 16 )
+shape = SubResource( 2 )
+
+[node name="LargeMoon" parent="." instance=ExtResource( 1 )]
+position = Vector2( 552, 472 )
+
+[node name="CollisionShape2D" parent="LargeMoon" index="0"]
+shape = SubResource( 3 )
+
+[node name="Sprite" parent="LargeMoon/MoonBody" index="0"]
+scale = Vector2( 2.5, 2.5 )
+
+[node name="CollisionShape2D" parent="LargeMoon/MoonBody" index="1"]
+shape = SubResource( 4 )
+
+[node name="Moon" parent="." instance=ExtResource( 1 )]
+position = Vector2( 264, 176 )
+
+[node name="CollisionShape2D" parent="Moon" index="0"]
+shape = SubResource( 5 )
+
+[node name="Sprite" parent="Moon/MoonBody" index="0"]
+scale = Vector2( 1.3, 1.3 )
+animation = "Planet2"
+
+[node name="CollisionShape2D" parent="Moon/MoonBody" index="1"]
+shape = SubResource( 6 )
+
+[node name="Pivot" parent="." instance=ExtResource( 14 )]
+position = Vector2( 264, 176 )
+rotation_speed = 0.785
+
+[node name="Area2D" parent="Pivot" index="0"]
+position = Vector2( 96, 128 )
+
+[node name="CollisionShape2D2" parent="Pivot/Area2D" index="0"]
+shape = SubResource( 7 )
+
+[node name="OrbitBody" parent="Pivot/Area2D" index="1"]
+position = Vector2( 0, 7.62939e-06 )
+
+[node name="Sprite" parent="Pivot/Area2D/OrbitBody" index="0"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" parent="Pivot/Area2D/OrbitBody" index="1"]
+shape = SubResource( 8 )
+
+[node name="BlackHole" parent="." instance=ExtResource( 12 )]
+position = Vector2( 560, 72 )
+gravity = 600.0
+
+[node name="Goal" parent="." instance=ExtResource( 3 )]
+position = Vector2( 560, 72 )
+space_override = 3
+gravity_point = true
+next_level = "res://Scenes/Levels/Level_4.tscn"
+
+[node name="Start" parent="." instance=ExtResource( 1 )]
+position = Vector2( 64, 376 )
+
+[node name="CollisionShape2D" parent="Start" index="0"]
+shape = SubResource( 9 )
+
+[node name="Sprite" parent="Start/MoonBody" index="0"]
+animation = "Start"
+
+[node name="CollisionShape2D" parent="Start/MoonBody" index="1"]
+shape = SubResource( 10 )
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+position = Vector2( 64, 336 )
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Ball"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="ScoreUI" parent="." instance=ExtResource( 15 )]
+[connection signal="oob" from="Boundaries" to="." method="_on_Boundaries_oob"]
+
+[editable path="Boundaries"]
+
+[editable path="LargeMoon"]
+
+[editable path="Moon"]
+
+[editable path="Pivot"]
+
+[editable path="Start"]
